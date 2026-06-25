@@ -28,6 +28,8 @@ JACKPOT = "$327 Million"
 CASH_VALUE = "$148 Million"
 NEXT_DRAW = "Wed, Jun 24, 2026"
 NEXT_DRAW_JS = "2026-06-24T22:59:00"
+LAUNCH_DATE = datetime(2026, 6, 25)
+FREE_DAYS = 10
 
 LAST_PICKS = []
 
@@ -893,7 +895,10 @@ def current_user():
 def current_user_id():
     return session.get("user_id")
 
+
+
 def current_user_photo():
+
     if not current_user_id():
         return None
 
@@ -906,7 +911,7 @@ def current_user_photo():
 
     conn.close()
 
-    if row and row["photo"]:
+    if row:
         return row["photo"]
 
     return None
@@ -1614,9 +1619,11 @@ def export_csv():
 
 
 if __name__ == "__main__":
-    init_db()
+    with app.app_context():
+        init_db()
+
     app.run(
         debug=True,
         host="0.0.0.0",
-        port=5050
+        port=5000
     )
